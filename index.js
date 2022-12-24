@@ -57,6 +57,10 @@ app.post('/api/shorturl/', function(req, res) {
   let longUrl = req.body.url; // stores the input
   // First test if data is valid URL
   let postValidUrl = isValidUrl(longUrl);
+
+  // test if url is in http or https
+  const httpRegex = /^(http|https)(:\/\/)/;
+  if (!httpRegex.test(longUrl)) { return res.json({ error: 'invalid url' }) }
   if (postValidUrl) {
     // Then find is URL already exists in database 
     ShortenedUrl.findOne({ original_url: longUrl }, function(err, data) {
