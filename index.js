@@ -99,3 +99,13 @@ app.post('/api/shorturl/', function (req, res) {
   }
 
 })
+
+app.get('/api/shorturl/:short_id', function (req, res) {
+  let shortId = req.params.short_id;
+  console.log(shortId)
+  ShortenedUrl.findOne({ short_url: shortId }, function (err, data) {
+    if (err) console.error(err)
+    if (!data) res.json({ "error": "invalid url" })
+    res.redirect(data.original_url)
+  });
+})
